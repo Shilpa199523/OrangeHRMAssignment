@@ -1,0 +1,69 @@
+package com.orangehrm.tests;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.orangehrm.base.BaseTest;
+import com.orangehrm.pages.DashboardPage;
+import com.orangehrm.pages.LoginPage;
+import com.orangehrm.pages.PIMPage;
+import com.orangehrm.utils.CommonMethods;
+@Listeners(com.orangehrm.utils.TestListener.class)
+
+public class PIMAddempTest extends BaseTest{
+
+   
+	  @Test(dataProvider = "loginData")
+	
+	    public void TC05_LoginValidCredentials(String username, String password) throws InterruptedException {
+	    	LoginPage loginPage = new LoginPage(driver);
+	    	CommonMethods commonMethods = new CommonMethods(driver);
+	    	loginPage.login(username, password);
+	    	commonMethods.validateCurrentUrl("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
+	    	//System.out.println("After Assertion of home page current url");
+	    }
+	    
+		@DataProvider(name = "loginData")
+		public Object[][] getData1() {
+			return new Object[][] {
+				{"Admin", "admin123"}
+			};
+		}
+  
+		@Test(dependsOnMethods = "TC05_LoginValidCredentials")
+		public void TC06_PIM() throws InterruptedException {
+			PIMPage PIMpagei = new PIMPage(driver);
+			PIMpagei.NavPIM();
+			PIMpagei.PIMclick();
+			Thread.sleep(6000);
+			PIMpagei.EMpdetails("Shilpa", "P", "S");
+			String empid = PIMpagei.Getgenerated();
+			Thread.sleep(6000);
+			PIMpagei.savedetails();
+			Thread.sleep(6000);
+			//hread.sleep(3000);
+			PIMpagei.emplist();
+			Thread.sleep(6000);
+			PIMpagei.searchempidinemplist(empid);
+			Thread.sleep(6000);
+			PIMpagei.submitsearch();
+			Thread.sleep(6000);
+			
+			//Assert.assertTrue(PIMpagei.isemppresent(empid),"notfound");
+			Thread.sleep(6000);
+		}
+}	
+		
+		
+		
+
+	  
+ 
+	
+ 
+
+
