@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
+import org.openqa.selenium.JavascriptExecutor;
 import com.orangehrm.base.BaseTest;
 import com.orangehrm.pages.DashboardPage;
 import com.orangehrm.pages.LoginPage;
@@ -15,7 +15,7 @@ import com.orangehrm.utils.CommonMethods;
 import com.orangehrm.utils.ExcelUtils;
 @Listeners(com.orangehrm.utils.TestListener.class)
 
-public class PIMAddempTest2 extends BaseTest{
+public class PIMwithExcel extends BaseTest{
 
    
 	  @Test(dataProvider = "loginData")
@@ -51,23 +51,24 @@ public class PIMAddempTest2 extends BaseTest{
 			PIMpagei.NavPIM();//navigate to PIM
 			PIMpagei.PIMclick(); // CLicking on Add
 			Thread.sleep(6000);
-			//PIMpagei.EMpdetails("Shilpa", "P", "S");
+	
 			PIMpagei.EMpdetails(Firstname, MiddleName, Lastname);
 			String empid = PIMpagei.Getgenerated();
-			Thread.sleep(6000);
 			PIMpagei.savedetails();
-			Thread.sleep(6000);
-			//hread.sleep(3000);
+			Thread.sleep(3000);
 			PIMpagei.emplist();
-			Thread.sleep(6000);
 			PIMpagei.searchempidinemplist(empid);
-			Thread.sleep(6000);
 			PIMpagei.submitsearch();
-			Thread.sleep(6000);
+			//Thread.sleep(4000);
 			
 			//Assert.assertTrue(PIMpagei.isemppresent(empid),"notfound");
+			JavascriptExecutor jascr = (JavascriptExecutor) driver;
 			
+			//jascr.executeScript("arguments[0].scrollIntoView(true);", PIMpagei.scroll());
+			jascr.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+			Thread.sleep(3000);
 		}
+		
 }	
 		
 		
